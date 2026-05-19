@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "kronos",
+  "version": "${version}",
+  "name": "KRONOS",
+  "description": "Advanced AI-powered automation client for Minecraft",
+  "authors": [
+    "Kronos Developer"
+  ],
+  "contact": {
+    "homepage": "https://github.com/kronos",
+    "sources": "https://github.com/kronos"
+  },
+  "license": "MIT",
+  "icon": "assets/kronos/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "net.kronos.KronosMod"
+    ]
+  },
+  "mixins": [
+    "kronos.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
