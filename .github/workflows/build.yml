@@ -18,11 +18,16 @@ jobs:
         with:
           gradle-version: '8.8'
 
-      - name: Build Mod with Network Resilience
+      - name: Build Mod with Resilience
         run: |
-          chmod +x gradlew
-          # The || ./gradlew build acts as a safety retry if the first build hits a network glitch
-          ./gradlew build || ./gradlew build
+          if [ -f "gradlew" ]; then
+            echo "Using Gradle Wrapper"
+            chmod +x gradlew
+            ./gradlew build || ./gradlew build
+          else
+            echo "Gradle Wrapper not found, using system gradle"
+            gradle build || gradle build
+          fi
           
       - name: Upload Mod Artifact
         uses: actions/upload-artifact@v4
