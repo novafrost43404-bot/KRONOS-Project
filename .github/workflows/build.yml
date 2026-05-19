@@ -1,29 +1,31 @@
 name: Build Mod
 on: [push, workflow_dispatch]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+          
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: '8.8'
-      - name: Build Mod File
+
+      - name: Build Mod with Network Resilience
         run: |
-          if [ -f gradlew ]; then
-            chmod +x gradlew
-            ./gradlew build
-          else
-            gradle build
-          fi
-      - name: Upload Mod to Download Link
+          chmod +x gradlew
+          # The || ./gradlew build acts as a safety retry if the first build hits a network glitch
+          ./gradlew build || ./gradlew build
+          
+      - name: Upload Mod Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Built-Mod-Jar
+          name: KRONOS-Mod-Build
           path: build/libs/*.jar
